@@ -1,4 +1,4 @@
-*! Version 0.9.9 Ishmail Azindoo Baako (IPA) Dec 05, 2016
+*! Version 1.0.0 Ishmail Azindoo Baako (IPA) Dec 05, 2016
 
 /* This program copies scto media files from the data source folder to a new folder
 		and renames them using variables specified. 
