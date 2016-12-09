@@ -66,7 +66,7 @@ qui {
 	
 	noi di
 	noi di _column(5) "resolve(varname) specifies the variable to be used in resolving duplicates on id. This is only required if the dataset in memory is duplicate on the id variable specified with id()" 
-	noi di _column(5) "If the variable specified with resolve is string, characters such as " `"`q'"' "/" `"`q'"' "," `"`q'"' "\" `"`q'"' " and " `"`q'"' ":" `"`q'"' " will be replaced with " `"`q'"' "_" `"`q'"' " when used in the file name." 
+	noi di _column(10) "If the variable specified with resolve is string, characters such as " `"`q'"' "/" `"`q'"' "," `"`q'"' "\" `"`q'"' " and " `"`q'"' ":" `"`q'"' " will be replaced with " `"`q'"' "_" `"`q'"' " when used in the file name." 
 	noi di
 	noi di "{title:Remarks}"
 	noi di

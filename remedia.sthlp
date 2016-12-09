@@ -30,10 +30,10 @@
 {title:Options}
 {col 5}by(varlist) sorts the data and creates folders and sub-folders using the variables specified. The maximum number of variables allowed in by is 3. If by is not specified,
 {col 10}all media files will be logged into the primary destination folder specified in to(). Note that if the by() variables cointains missing variables some of the media
-{col 10}files will not be saved into the expected folders. If the variabels specified with by() contain characters such as "/","\" and":" remedia will replace them with "_" when
+{col 10}files will not be saved into the expected folders. If the variabels specified with by() contain characters such as "/","\" and ":" remedia will replace them with "_" when
 {col 10}creating folders.
 
-{col 5}id(varname) specifies the id variable of the dataset will be used to label the media files. If the id variable is not unique to the obaservations in the dataset remedia will
+{col 5}id(varname) specifies the id variable of the dataset will be used to label the media files. If the id variable is not unique to the observations in the dataset remedia will
 {col 10}throw and error and require that option resolve() be specified. Common id variables include hhid,plot_id and respondent_id
 
 {col 5}enumerator(varname) specifies the enumerator variable for the dataset. This variable, together with the id variable will be used as the new name of the media file in the destination
@@ -46,7 +46,7 @@
 {col 5}to(folder) specifies the main destination folder path. if by is specified, additional sub folders will be created and media files saved to it
 
 {col 5}resolve(varname) specifies the variable to be used in resolving duplicates on id. This is only required if the dataset in memory is duplicate on the id variable specified with id()
-{col 5}If the variable specified with resolve is string, characters such as "/","\" and":" will be replaced with "_" when used in the file name.
+{col 10}If the variable specified with resolve is string, characters such as "/","\" and ":" will be replaced with "_" when used in the file name.
 
 {title:Remarks}
 

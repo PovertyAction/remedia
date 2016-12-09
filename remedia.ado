@@ -3,9 +3,10 @@
 /* This program copies scto media files from the data source folder to a new folder
 		and renames them using variables specified. 
 		Please note the following for this current version of remedia.
-			1. Uses values not labels
-			2. Can log in up to three layers of subfolders specified with BY
-			3. Uses id and enumerator to label the new media file
+			1. Uses values not labels.
+			2. Can log in up to three layers of subfolders specified with BY.
+			3. Uses id and enumerator to label the new media file.
+
 */
 
 cap version 13
