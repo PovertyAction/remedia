@@ -1,0 +1,5 @@
+v 3
+d IPA program to rename SurveyCTO media files
+f remedia.ado
+f remedia.sthlp
+f run_remedia.do
