@@ -244,12 +244,14 @@ program define remedia
 							if `mf_dup' == 0 {
 								cap confirm file "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'"
 									if _rc == 601 {
-										cap copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'", replace				
-										local ++mf_track
-										
+										cap copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'", replace														
 											if _rc == 601 {
 												replace `mf_miss' = 1 if `id' == "`mf_id'" & `varlist' = "`mf_file'"
 												local ++mf_miss_track
+											}
+											
+											else if !_rc {
+												local ++mf_track
 											}
 									}
 							}
