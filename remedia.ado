@@ -279,7 +279,7 @@ program define remedia
 			drop if `mf_valid'
 			if _N > 0 {
 		
-				noi di as result _N as text in red " Missing Media Files from SurveyCTO server"
+				noi di as result _N as text in red " missing media file(s) from SurveyCTO server"
 				noi di "id" _column(20) "enumerator"
 			
 				forval mf = 1/`N' {
@@ -293,10 +293,10 @@ program define remedia
 			}
 			
 			use `mf_temp', clear
-			drop if !`mf_miss'
+			drop if !`mf_miss' | !mi(`mf_miss')
 			if _N > 0 {
 			
-				noi di as result _N as text in red " {p}Missing Media Files from directory (`to')"
+				noi di as result _N as text in red " missing media files from directory (`to')"
 				noi di "id" _column(20) "enumerator" 
 				
 				local N = _N
