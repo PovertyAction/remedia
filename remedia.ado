@@ -1,4 +1,4 @@
-*! Version 1.0.0 Ishmail Azindoo Baako (IPA) Dec 05, 2016
+*! Version 1.1.0 Ishmail Azindoo Baako (IPA) Dec 27, 2016
 
 /* This program copies scto media files from the data source folder to a new folder
 		and renames them using variables specified. 
@@ -6,6 +6,8 @@
 			1. Uses values not labels.
 			2. Can log in up to three layers of subfolders specified with BY.
 			3. Uses id and enumerator to label the new media file.
+			
+			* Version 1.1.0 handles issues of missing data from the local storage
 
 */
 
@@ -24,7 +26,7 @@ program define remedia
 	
 	qui {
 		
-		tempvar uid_dup fname mf_valid
+		tempvar uid_dup fname mf_valid mf_miss
 		
 		/***********************************************************************
 		Check syntax, source and destination folders
@@ -225,6 +227,9 @@ program define remedia
 			}	
 				local mf_track 0
 				local uid_track 0
+				local mf_miss_track	0											
+				gen `mf_miss' = 0												
+				
 				local N = _N
 				forval mf = 1/`N' {
 					local mf_copy = `mf_valid'[`mf']
@@ -239,8 +244,13 @@ program define remedia
 							if `mf_dup' == 0 {
 								cap confirm file "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'"
 									if _rc == 601 {
-										copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'", replace				
-										local ++mf_track	
+										cap copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'", replace				
+										local ++mf_track
+										
+											if _rc == 601 {
+												replace `mf_miss' = 1 if `id' == "`mf_id'" & `varlist' = "`mf_file'"
+												local ++mf_miss_track
+											}
 									}
 							}
 							
@@ -261,13 +271,15 @@ program define remedia
 					noi di "`uid_track' Media Files Duplicate on `id'. Differences resolved using variable `resolve'"
 				}
 		
+			tempfile mf_temp
+			save `mf_temp' 
+			
 			drop if `mf_valid'
 			if _N > 0 {
 		
-				noi di as result _N as text in red " Missing Media Files"
+				noi di as result _N as text in red " Missing Media Files from SurveyCTO server"
 				noi di "id" _column(20) "enumerator"
 			
-				local N = _N
 				forval mf = 1/`N' {
 				
 					local mf_id = `id'[`mf']
@@ -277,7 +289,24 @@ program define remedia
 				}
 			
 			}
+			
+			use `mf_temp', clear
+			drop if !`mf_miss'
+			if _N > 0 {
+			
+				noi di as result _N as text in red " {p}Missing Media Files from directory (`to')"
+				noi di "id" _column(20) "enumerator" 
+				
+				local N = _N
+				forval mf = 1/`N' {
+				
+					local mf_id = `id'[`mf']
+					local mf_enum = `enumerator'[`mf']
+					noi di "`mf_id'" _column(20) "`mf_enum'"
+				}
 		
+			}
+			
 		restore
 	}
 		
