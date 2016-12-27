@@ -274,7 +274,7 @@ program define remedia
 				}
 		
 			tempfile mf_temp
-			save `mf_temp' 
+			save `mf_temp', replace
 			
 			drop if `mf_valid'
 			if _N > 0 {
@@ -293,7 +293,7 @@ program define remedia
 			}
 			
 			use `mf_temp', clear
-			drop if !`mf_miss' | !mi(`mf_miss')
+			drop if !`mf_miss' | mi(`mf_miss')
 			if _N > 0 {
 			
 				noi di as result _N as text in red " missing media files from directory (`to')"
