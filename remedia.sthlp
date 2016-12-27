@@ -59,9 +59,9 @@
 {col 10}remedia audio_audit ///
 {col 15}if audio_consent == 1, ///
 {col 15}by(region district) ///
-{col 15}id(hhid)
-{col 15}enum(enumerator_id)
-{col 15}from("X:/Project Folder/Data/scto_csv")
+{col 15}id(hhid) ///
+{col 15}enum(enumerator_id) ///
+{col 15}from("X:/Project Folder/Data/scto_csv") ///
 {col 15}to("X:/Project Folder/Data/scto_csv")
 
 

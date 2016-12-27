@@ -80,10 +80,11 @@ qui {
 	noi di _column(10) "remedia audio_audit ///"
 	noi di _column(15) "if audio_consent == 1, ///"
 	noi di _column(15) "by(region district) ///"
-	noi di _column(15) "id(hhid)"
-	noi di _column(15) "enum(enumerator_id)"
-	noi di _column(15) "from(" `"`q'"' "X:/Project Folder/Data/scto_csv" `"`q'"' ")"
+	noi di _column(15) "id(hhid) ///"
+	noi di _column(15) "enum(enumerator_id) ///"
+	noi di _column(15) "from(" `"`q'"' "X:/Project Folder/Data/scto_csv" `"`q'"' ") ///"
 	noi di _column(15) "to(" `"`q'"' "X:/Project Folder/Data/scto_csv" `"`q'"' ")"
+
 
 	noi di
 	noi di
