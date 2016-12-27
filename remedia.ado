@@ -296,7 +296,8 @@ program define remedia
 			drop if !`mf_miss' | mi(`mf_miss')
 			if _N > 0 {
 			
-				noi di as result _N as text in red " missing media files from directory (`to')"
+				noi di
+				noi di as result _N as text in red " missing media files from directory (`from')"
 				noi di "id" _column(20) "enumerator" 
 				
 				local N = _N
