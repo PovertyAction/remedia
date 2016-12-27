@@ -228,7 +228,7 @@ program define remedia
 				local mf_track 0
 				local uid_track 0
 				local mf_miss_track	0											
-				gen `mf_miss' = 0												
+				gen int `mf_miss' = 0												
 				
 				local N = _N
 				forval mf = 1/`N' {
@@ -246,7 +246,7 @@ program define remedia
 									if _rc == 601 {
 										cap copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'", replace														
 											if _rc == 601 {
-												replace `mf_miss' = 1 if `id' == "`mf_id'" & `varlist' = "`mf_file'"
+												replace `mf_miss' = 1 if `id' == "`mf_id'" & `varlist' == "`mf_file'"
 												local ++mf_miss_track
 											}
 											
