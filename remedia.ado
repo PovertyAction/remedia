@@ -287,7 +287,6 @@ program define remedia
 					local mf_id = `id'[`mf']
 					local mf_enum = `enumerator'[`mf']
 					noi di "`mf_id'" _column(20) "`mf_enum'"
-
 				}
 			
 			}
@@ -295,8 +294,6 @@ program define remedia
 			use `mf_temp', clear
 			drop if !`mf_miss' | mi(`mf_miss')
 			if _N > 0 {
-			
-				noi di
 				noi di as result _N as text in red " missing media files from directory (`from')"
 				noi di "id" _column(20) "enumerator" 
 				
