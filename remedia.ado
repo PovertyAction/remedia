@@ -282,6 +282,7 @@ program define remedia
 				noi di as result _N as text in red " missing media file(s) from SurveyCTO server"
 				noi di "id" _column(20) "enumerator"
 			
+				local N = _N
 				forval mf = 1/`N' {
 				
 					local mf_id = `id'[`mf']
