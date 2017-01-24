@@ -207,7 +207,7 @@ program define remedia
 			// Get the media file type
 			local mf_ext_check = `varlist'[1]
 			
-			local tmp_ext ".3gpp .jpg .jpeg .png .gif"
+			local tmp_ext ".3gpp .mp4 .jpg .jpeg .png .gif"
 			local ext_full_cnt: word count of `tmp_ext'
 			local ext_cnt 0
 			local loop_break 0
@@ -222,7 +222,7 @@ program define remedia
 			}
 
 			if mi("`mf_ext'") {
-				noi di in red "Media type must be 3GPP, JPG , JPEG, GIF or PNG"
+				noi di in red "Media type must be 3GPP, MP4, JPG , JPEG, GIF or PNG"
 				exit 198
 			}	
 				local mf_track 0
