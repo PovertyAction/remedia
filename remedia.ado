@@ -222,7 +222,7 @@ program define remedia
 			}
 
 			if mi("`mf_ext'") {
-				noi di in red "Media type must be 3GPP, MP4, JPG , JPEG, GIF or PNG"
+				noi di in red "Media type must be 3GPP, M4a, JPG , JPEG, GIF or PNG"
 				exit 198
 			}	
 				local mf_track 0
