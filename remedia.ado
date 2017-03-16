@@ -207,7 +207,7 @@ program define remedia
 			// Get the media file type
 			local mf_ext_check = `varlist'[1]
 			
-			local tmp_ext ".3gpp .mp4 .jpg .jpeg .png .gif"
+			local tmp_ext ".3gpp .m4a .jpg .jpeg .png .gif"
 			local ext_full_cnt: word count of `tmp_ext'
 			local ext_cnt 0
 			local loop_break 0
