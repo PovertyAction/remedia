@@ -1,5 +1,5 @@
 # Title
-**remedia** is an IPA Stata programme that renames SurveyCTO media files. (version 1.1.0)
+**remedia** is an IPA Stata programme that renames SurveyCTO media files. (version 1.2.0)
 
 # Installing remedia:
 To install remedia, copy and paste the stata command below into your stata command window and press enter:
