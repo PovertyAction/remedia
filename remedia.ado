@@ -1,4 +1,4 @@
-*! Version 1.1.0 Ishmail Azindoo Baako (IPA) Dec 27, 2016
+*! Version 1.2.0 Ishmail Azindoo Baako (IPA) Mar 18, 2017
 
 /* This program copies scto media files from the data source folder to a new folder
 		and renames them using variables specified. 
@@ -8,6 +8,7 @@
 			3. Uses id and enumerator to label the new media file.
 			
 			* Version 1.1.0 handles issues of missing data from the local storage
+			* Version 1.2.0 Handle different formats in media files. Eg, Audio Files in 3gpp and m4a in an audio audit var 
 
 */
 
@@ -26,7 +27,7 @@ program define remedia
 	
 	qui {
 		
-		tempvar uid_dup fname mf_valid mf_miss
+		tempvar uid_dup fname mf_valid mf_miss ext
 		
 		/***********************************************************************
 		Check syntax, source and destination folders
@@ -204,74 +205,55 @@ program define remedia
 			// remove "media/" from the media name
 			replace `varlist' = subinstr(`varlist', "media\", "", .)
 			
-			// Get the media file type
-			local mf_ext_check = `varlist'[1]
+			// generate tempvar ext to hold the extension for each media file
+			gen `ext' = substr(audio_audit, -(strpos(reverse(audio_audit), ".")), .)
 			
-			local tmp_ext ".3gpp .m4a .jpg .jpeg .png .gif"
-			local ext_full_cnt: word count of `tmp_ext'
-			local ext_cnt 0
-			local loop_break 0
-			
-			while `loop_break' == 0 & `ext_cnt' <= `ext_full_cnt' {
-				local ++ext_cnt
-				local tmp_ext_check: word `ext_cnt' of `tmp_ext'
-				if regexm("`mf_ext_check'", "`tmp_ext_check'") {
-					local mf_ext "`tmp_ext_check'"
-					local loop_break 1
-				}
-			}
-
-			if mi("`mf_ext'") {
-				noi di in red "Media type must be 3GPP, M4a, JPG , JPEG, GIF or PNG"
-				exit 198
-			}	
-				local mf_track 0
-				local uid_track 0
-				local mf_miss_track	0											
-				gen int `mf_miss' = 0												
+			local mf_track 0
+			local uid_track 0
+			local mf_miss_track	0											
+			gen int `mf_miss' = 0												
 				
-				local N = _N
-				forval mf = 1/`N' {
-					local mf_copy = `mf_valid'[`mf']
-						if `mf_copy' == 1 {
-							local mf_id = `id'[`mf']
-							local mf_enum = `enumerator'[`mf']
-							local mf_sav = `fname'[`mf']
-							local mf_file = `varlist'[`mf']
+			local N = _N
+			forval mf = 1/`N' {
+				local mf_copy = `mf_valid'[`mf']
+				if `mf_copy' == 1 {
+					local mf_id = `id'[`mf']
+					local mf_enum = `enumerator'[`mf']
+					local mf_sav = `fname'[`mf']
+					local mf_file = `varlist'[`mf']
 							
-							local mf_dup = `uid_dup'[`mf']
+					local mf_dup = `uid_dup'[`mf']
+					local mf_ext = `ext'[`mf']
 							
-							if `mf_dup' == 0 {
-								cap confirm file "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'"
-									if _rc == 601 {
-										cap copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'", replace														
-											if _rc == 601 {
-												replace `mf_miss' = 1 if `id' == "`mf_id'" & `varlist' == "`mf_file'"
-												local ++mf_miss_track
-											}
-											
-											else if !_rc {
-												local ++mf_track
-											}
-									}
+					if `mf_dup' == 0 {
+						cap confirm file "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'"
+						if _rc == 601 {
+							cap copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'`mf_ext'", replace														
+							if _rc == 601 {
+								replace `mf_miss' = 1 if `id' == "`mf_id'" & `varlist' == "`mf_file'"
+								local ++mf_miss_track
 							}
-							
-							else {
-								local uid_key = `resolve'[`mf'] 
-								cap confirm file "`mf_sav'/`mf_id'_`mf_enum'_`uid_key'`mf_ext'"
-									if _rc == 601 {
-										copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'_`uid_key'`mf_ext'", replace				
-										local ++uid_track
-									}
+											
+							else if !_rc {
+								local ++mf_track
 							}
 						}
+					}
+							
+					else {
+						local uid_key = `resolve'[`mf'] 
+						cap confirm file "`mf_sav'/`mf_id'_`mf_enum'_`uid_key'`mf_ext'"
+						if _rc == 601 {
+							copy "`from'/`mf_file'" "`mf_sav'/`mf_id'_`mf_enum'_`uid_key'`mf_ext'", replace				
+							local ++uid_track
+						}
+					}
 				}
-		
-		
-				noi di in green "`mf_track' Media Files Logged"
-				if `uid_track' > 0 {
-					noi di "`uid_track' Media Files Duplicate on `id'. Differences resolved using variable `resolve'"
-				}
+			}	
+			noi di in green "`mf_track' Media Files Logged"
+			if `uid_track' > 0 {
+				noi di "`uid_track' Media Files Duplicate on `id'. Differences resolved using variable `resolve'"
+			}
 		
 			tempfile mf_temp
 			save `mf_temp', replace
