@@ -42,7 +42,7 @@ program define remedia
 		// Check that media variable contains at least one non missing value
 		cap assert mi(`varlist')
 			if !_rc {
-				noi di error "`varlist' has all missing values"
+				noi di as err "`varlist' has all missing values"
 				err 2000
 			}
 		
