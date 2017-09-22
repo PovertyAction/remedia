@@ -206,7 +206,7 @@ program define remedia
 			replace `varlist' = subinstr(`varlist', "media\", "", .)
 			
 			// generate tempvar ext to hold the extension for each media file
-			gen `ext' = substr(audio_audit, -(strpos(reverse(audio_audit), ".")), .)
+			gen `ext' = substr(`varlist', -(strpos(reverse(`varlist'), ".")), .)
 			
 			local mf_track 0
 			local uid_track 0
